@@ -1,0 +1,66 @@
+使用者
+約每300筆一個檔案
+*blog_type是用來分辨不同網站的blog要再寫規則去定義,初步用主域做分類即可
+{	user:[
+		{	user_id,
+			follower_cnt,
+			display_name,
+			post_cnt,
+			browse_cnt,
+			checkin_cnt,
+			certified,
+			fans:[fan_id,...],
+			blog:{blog_id,
+				*blog_type,
+				share_cnt,
+				recommend_cnt,
+				title,
+				url,
+				restaurant_id,
+				}
+			collection:[restaurant_id,...]
+			recommendation:[restaurant_id,...]
+			visit:[restaurant_id,...]
+		},
+		...
+	]
+	
+}
+
+餐聽
+爬使用者資料時就會順便爬到，每300筆使用者所挖出的餐廳資訊存成一個檔案
+會重覆，但還不確定重複時資料會不會一致，若會不一致就看last_visit時間選最新的
+{	restaurant:[
+		{	restaurant_id,
+			city,
+			name,
+			address,
+			opening_hours,
+			blog_count,
+			phone,
+			admin_name,
+			visit_cnt,
+			avg_price,
+			lat,
+			lng,
+			last_visit,
+		},
+		...
+	]
+}
+
+blog
+其實裡面的資訊大都是爬使用者時順便爬到的
+這邊主要是依據不同url的blog_type去爬文章內容
+做到這邊資料庫應該也好了
+可以一篇blog一個檔案，也可以直接灌進資料庫，再看狀況
+{
+	blog_id,
+	*blog_type,
+	share_cnt,
+	recommend_cnt,
+	title,
+	url,
+	restaurant_id,
+	text,
+}
